@@ -1,0 +1,36 @@
+<section class="section-modal" *ngIf="isOpen" id="section-modal">
+  <div class="modal">
+    <h2>Nova transação</h2>
+    <form [formGroup]="form" class="form-control" (ngSubmit)="onSubmit()">
+      <input
+        type="text"
+        placeholder="Descrição"
+        formControlName="descricao"
+        maxlength="50"
+        required
+      />
+      <input
+        type="text"
+        placeholder="valor"
+        formControlName="valor"
+        maxlength="5"
+        required
+      />
+
+      <select formControlName="categoria" required>
+        <option value="" disabled selected>Selecione uma categoria</option>
+        <option value="casa">Casa</option>
+        <option value="carro">Carro</option>
+        <option value="passeio">Passeio</option>
+        <option value="restaurante">Restaurante</option>
+        <option value="roupa">Roupa</option>
+        <option value="outros">Outros</option>
+      </select>
+      <input type="date" formControlName="data" />
+      <div class="button-group">
+        <button type="submit">Cadastrar</button>
+        <button (click)="closeModal()">Cancelar</button>
+      </div>
+    </form>
+  </div>
+</section>

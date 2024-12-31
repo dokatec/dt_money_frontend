@@ -1,0 +1,85 @@
+.section-modal {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  position: fixed;
+  z-index: 1000;
+  top: 0;
+  left: 0;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.6);
+  transition: opacity 0.5s ease;
+}
+
+.modal {
+  width: 30%;
+  height: 60vh;
+  margin: 10% auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background-color: #323238;
+  border-radius: 5px;
+}
+
+.form-control {
+  width: 80%;
+  height: auto;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.form-control input {
+  width: 100%;
+  height: 4rem;
+  outline: none;
+  border: none;
+  border-radius: 5px;
+  margin: 5% 0;
+  background-color: #29292e;
+  color: #acacac;
+  font-size: 16px;
+}
+
+.form-control select {
+  width: 100%;
+  height: 4rem;
+  outline: none;
+  border: none;
+  border-radius: 5px;
+  margin: 5% 0;
+  background-color: #29292e;
+  color: #acacac;
+  font-size: 16px;
+}
+
+.form-control button {
+  width: 100%;
+  height: 3rem;
+  outline: none;
+  border: none;
+  border-radius: 5px;
+  background-color: #00875f;
+  margin: 5% 0;
+  cursor: pointer;
+  color: #fff;
+  transition: 0.6s;
+  font-size: 16px;
+  font-weight: 600;
+}
+.form-control button:hover {
+  background-color: #09cf94;
+}
+
+.button-group {
+  width: 100%;
+  height: auto;
+  display: flex;
+  gap: 20px;
+}
+
+.button-red {
+  background-color: #ec5353;
+}
