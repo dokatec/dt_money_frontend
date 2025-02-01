@@ -1,10 +1,8 @@
-import { Component, OnInit, ViewChild   } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { DataService } from '../services/serviceApi';
 import { CommonModule } from '@angular/common';
-import Transacao  from '../models/Transacao';
+import Transacao from '../models/Transacao';
 import { ModalComponent } from './modal/modal.component';
-
-
 
 
 
@@ -17,27 +15,61 @@ import { ModalComponent } from './modal/modal.component';
 export class AppComponent implements OnInit {
 
   transacoes: Transacao[] = [];
-  somaEntradas: number = 0;
-  somaSaidas: number = 0;
-  somaTotal: number = 0;
+  totalEntradas: number = 0;
+  totalSaidas: number = 0
+  total: number = 0;
 
-  constructor(private dataService: DataService, ) {}
+  constructor(private transacaoService: DataService,) { }
 
-  
+
   ngOnInit(): void {
-    this.dataService.getData().subscribe(transacoes => { 
-      this.transacoes = transacoes; 
-      this.somaEntradas = this.transacoes.filter(transacao => transacao.valor > 0).reduce((total, transacao) => total + transacao.valor, 0)
-      this.somaSaidas = this.transacoes.filter(transacao => transacao.valor < 0).reduce((total, transacao) => total + transacao.valor, 0)
-      this.somaTotal = this.somaEntradas + this.somaSaidas;
-    });
+    this.loadTransacoes();
 
-   
-  
+
+  }
+
+  loadTransacoes() {
+    this.transacaoService.getTransacoes().subscribe(transacoes => {
+      this.transacoes = transacoes;
+      this.calcularTotais();
+    })
+  }
+
+  calcularTotais(): void {
+    this.totalEntradas = this.transacoes
+      .filter(t => t.valor > 0)
+      .reduceRight((acc, t) => acc + t.valor, 0);
+
+    this.totalSaidas = this.transacoes
+      .filter(t => t.valor < 0)
+      .reduce((acc, t) => acc + t.valor, 0);
+
+    this.total = this.totalEntradas + this.totalSaidas;
+  }
+
+  addNovaTransacao(transacao: Transacao) {
+    this.transacaoService.addTransacao(transacao).subscribe(novaTransacao => {
+      console.log("Transação adicionada:", novaTransacao);
+      this.loadTransacoes();
+      this.calcularTotais();
+    })
   }
 
 
-  
+
+  deleteTransacao(id: number): void {
+    this.transacaoService.deleteTransacao(id).subscribe({
+      next: () => {
+        console.log(`Transação com ID ${id} deletada com sucesso.`);
+        this.loadTransacoes(); // Recarrega as transações após deletar
+      },
+      error: (error) => {
+        console.error("Erro ao deletar transação:", error);
+        alert("Ocorreu um erro ao deletar a transação. Tente novamente mais tarde.");
+      }
+
+    });
+  }
 }
 
 

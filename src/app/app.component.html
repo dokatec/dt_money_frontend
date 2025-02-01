@@ -24,7 +24,7 @@
             <img src="assets/icons.png" />
           </div>
           <h1 class="valor-decricao color-green">
-            {{ somaEntradas | currency : "BRL" }}
+            {{ totalEntradas | currency : "BRL" }}
           </h1>
         </div>
         <div class="card">
@@ -33,7 +33,7 @@
             <img src="assets/icons-negativo.png" />
           </div>
           <h1 class="valor-decricao color-red">
-            {{ somaSaidas | currency : "BRL" }}
+            {{ totalSaidas | currency : "BRL" }}
           </h1>
         </div>
         <div class="card card-green">
@@ -41,7 +41,7 @@
             <p>Total</p>
             <img src="assets/icons-total.png" />
           </div>
-          <h1 class="valor-decricao">{{ somaTotal | currency : "BRL" }}</h1>
+          <h1 class="valor-decricao">{{ total | currency : "BRL" }}</h1>
         </div>
       </section>
 
@@ -66,9 +66,12 @@
           <tr *ngFor="let transacao of transacoes">
             <td>{{ transacao.id }}</td>
             <td>{{ transacao.descricao }}</td>
-            <td>R$ {{ transacao.valor }}</td>
+            <td>{{ transacao.valor | currency : "BRL" }}</td>
             <td>{{ transacao.categoria }}</td>
             <td>{{ transacao.data | date : "dd/MM/yyyy" }}</td>
+            <td>
+              <button (click)="deleteTransacao(transacao.id)">Deletar</button>
+            </td>
           </tr>
         </table>
       </section>

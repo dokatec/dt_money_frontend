@@ -6,9 +6,13 @@ import { DataService } from '../../services/serviceApi';
 
 @Component({
   selector: 'app-modal',
-  imports: [CommonModule, ReactiveFormsModule ],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule
+  ],
   templateUrl: './modal.component.html',
-  styleUrls: ['./modal.component.css']
+  styleUrls: ['./modal.component.css'],
+
 })
 export class ModalComponent {
   form: FormGroup;
@@ -17,7 +21,7 @@ export class ModalComponent {
     this.form = this.formBuilder.group({
       descricao: ['', Validators.required],
       valor: ['', Validators.required],
-      categoria:  ['', Validators.required],
+      categoria: ['', Validators.required],
       data: ['', Validators.required]
     })
 
@@ -25,27 +29,25 @@ export class ModalComponent {
 
 
   onSubmit() {
-    if(this.form.valid){
+    if (this.form.valid) {
       const transacao: Transacao = this.form.value;
-      this.dataService.postData(transacao)
-      .subscribe(() => {
-        console.log('Usuário cadastrado com sucesso!');
-      },
-    (error) => {
-      console.error('Erro ao cadastrar usuário:', error);
+      this.dataService.addTransacao(transacao).subscribe({
+        next: (novaTransacao) => {
+          console.log('Transação adicionada com sucesso', novaTransacao);
+        },
+
+        error: (err) => {
+          console.error('Erro ao adicionar a transação', err);
+
+        }
+      });
+
+      this.closeModal();
     }
-    )
-    }
+  }
 
-
-   
-        this.closeModal();
-      }
-
-
-  
   isOpen: boolean = false;
-  
+
 
   openModal() {
     this.isOpen = true;

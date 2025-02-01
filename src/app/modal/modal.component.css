@@ -31,7 +31,7 @@
   flex-direction: column;
 }
 
-.form-control input {
+.form-input {
   width: 100%;
   height: 4rem;
   outline: none;
@@ -40,7 +40,8 @@
   margin: 5% 0;
   background-color: #29292e;
   color: #acacac;
-  font-size: 16px;
+  font-size: 18px;
+  font-weight: 500;
 }
 
 .form-control select {
@@ -82,4 +83,12 @@
 
 .button-red {
   background-color: #ec5353;
+}
+
+.mat-form-field {
+  width: 100%; /* Ocupar toda a largura do container */
+}
+
+.mat-datepicker-toggle {
+  margin-left: 8px; /* Espaçamento entre o ícone de toggle e o input */
 }

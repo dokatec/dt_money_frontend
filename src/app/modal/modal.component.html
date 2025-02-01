@@ -3,6 +3,7 @@
     <h2>Nova transação</h2>
     <form [formGroup]="form" class="form-control" (ngSubmit)="onSubmit()">
       <input
+        class="form-input"
         type="text"
         placeholder="Descrição"
         formControlName="descricao"
@@ -10,6 +11,7 @@
         required
       />
       <input
+        class="form-input"
         type="text"
         placeholder="valor"
         formControlName="valor"
@@ -26,7 +28,8 @@
         <option value="roupa">Roupa</option>
         <option value="outros">Outros</option>
       </select>
-      <input type="date" formControlName="data" />
+
+      <input type="date" id="data" formControlName="data" class="form-input" />
       <div class="button-group">
         <button type="submit">Cadastrar</button>
         <button (click)="closeModal()">Cancelar</button>

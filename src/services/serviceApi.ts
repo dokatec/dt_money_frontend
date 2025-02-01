@@ -1,28 +1,41 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
-import { catchError } from 'rxjs/operators';
-import Transacao  from '../models/Transacao';
+import { catchError, Observable, of } from 'rxjs';
+import Transacao from '../models/Transacao';
 
 @Injectable({ providedIn: 'root' })
 export class DataService {
+  private apiUrl = 'http://localhost:5031/transacao';
 
-   constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) { }
 
-  getData(): Observable<Transacao[]> {
-    return this.http.get<Transacao[]>('http://localhost:5031/transacao')
+  getTransacoes(): Observable<Transacao[]> {
+    return this.http.get<Transacao[]>(this.apiUrl);
+  }
+
+  getTotal(): Observable<number> {
+    return this.http.get<number>(`${this.apiUrl}/total`);
+  }
+
+  addTransacao(transacao: Transacao): Observable<Transacao> {
+    return this.http.post<Transacao>(this.apiUrl, transacao)
       .pipe(
-        catchError((error) => {
-          console.error('Error:', error);
-          return of([]); 
-        })
+        catchError(this.handleError<Transacao>('addTransacao'))
       );
+
   }
 
-  postData(transacao: Transacao): Observable<Transacao> {
-    return this.http.post<Transacao>('http://localhost:5031/transacao', transacao)
-    
+  deleteTransacao(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`)
   }
- 
+
+  private handleError<T>(operation = 'operation', result?: T) {
+    return (error: any): Observable<T> => {
+      console.error(`${operation} failed: ${error.message}`);
+      return of(result as T);
+    };
+
+
+  }
 }
 
