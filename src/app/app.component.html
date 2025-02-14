@@ -46,12 +46,14 @@
       </section>
 
       <section class="section-table">
-        <form action="">
+        <form (ngSubmit)="filtrarTransacoes()">
           <input
             class="form-input"
             type="text"
             name="buscar"
             placeholder="Busque uma Transação"
+            [(ngModel)]="filtro"
+            name="filtro"
           />
           <button class="btn-buscar" type="submit">Buscar</button>
         </form>
@@ -63,10 +65,23 @@
             <th>Categoria</th>
             <th>Data</th>
           </tr>
-          <tr *ngFor="let transacao of transacoes">
+          <tr
+            *ngFor="let transacao of filtro ? transacoesFiltradas : transacoes"
+          >
             <td>{{ transacao.id }}</td>
             <td>{{ transacao.descricao }}</td>
-            <td>{{ transacao.valor | currency : "BRL" }}</td>
+            <td *ngIf="transacao.valor > 0; else valorNegativo">
+              <p class="color-green">
+                {{ transacao.valor | currency : "BRL" }}
+              </p>
+            </td>
+            <ng-template #valorNegativo>
+              <td>
+                <p class="color-red">
+                  {{ transacao.valor | currency : "BRL" }}
+                </p>
+              </td>
+            </ng-template>
             <td>{{ transacao.categoria }}</td>
             <td>{{ transacao.data | date : "dd/MM/yyyy" }}</td>
             <td>

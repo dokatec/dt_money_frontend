@@ -3,28 +3,29 @@ import { DataService } from '../services/serviceApi';
 import { CommonModule } from '@angular/common';
 import Transacao from '../models/Transacao';
 import { ModalComponent } from './modal/modal.component';
+import { FormsModule } from '@angular/forms';
 
 
 
 @Component({
   selector: 'app-root',
-  imports: [CommonModule, ModalComponent],
+  imports: [CommonModule, ModalComponent, FormsModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
 export class AppComponent implements OnInit {
 
   transacoes: Transacao[] = [];
+  transacoesFiltradas: Transacao[] = [];
+  filtro: string = '';
   totalEntradas: number = 0;
   totalSaidas: number = 0
   total: number = 0;
 
   constructor(private transacaoService: DataService,) { }
 
-
   ngOnInit(): void {
     this.loadTransacoes();
-
 
   }
 
@@ -33,6 +34,12 @@ export class AppComponent implements OnInit {
       this.transacoes = transacoes;
       this.calcularTotais();
     })
+  }
+
+  filtrarTransacoes(): void {
+    this.transacoesFiltradas = this.transacoes.filter(transacao =>
+      transacao.descricao.toLowerCase().includes(this.filtro.toLowerCase())
+    )
   }
 
   calcularTotais(): void {
@@ -54,7 +61,6 @@ export class AppComponent implements OnInit {
       this.calcularTotais();
     })
   }
-
 
 
   deleteTransacao(id: number): void {
