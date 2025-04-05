@@ -64,6 +64,7 @@
             <th>R$ Valor</th>
             <th>Categoria</th>
             <th>Data</th>
+            <th>Ações</th>
           </tr>
           <tr
             *ngFor="let transacao of filtro ? transacoesFiltradas : transacoes"
@@ -85,7 +86,12 @@
             <td>{{ transacao.categoria }}</td>
             <td>{{ transacao.data | date : "dd/MM/yyyy" }}</td>
             <td>
-              <button (click)="deleteTransacao(transacao.id)">Deletar</button>
+              <span
+                (click)="deleteTransacao(transacao.id)"
+                class="material-symbols-outlined icon-delete"
+              >
+                delete
+              </span>
             </td>
           </tr>
         </table>
